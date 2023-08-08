@@ -1,0 +1,18 @@
+services:
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data/floppa:/appdata
+    depends_on:
+      - storage
+
+  storage:
+    image: quay.io/minio/minio:latest
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    command: server /data --address "0.0.0.0:9000" --console-address "0.0.0.0:9001"
+    volumes:
+      - ./data/s3:/data    
